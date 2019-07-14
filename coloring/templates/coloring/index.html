@@ -8,15 +8,94 @@
 
 	<script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
-
 	<style type="text/css">
+    
+     .wrap{
+        width:40px;
+        height:60px;
+        position:relative;
+    }  
+    .btn1{
+        font-size:16px;
+        display:block;
+        width:150px;
+        height:60px;
+        line-height:40px;
+        text-align:center;
+        background:#ffccff;
+        color:#fff;
+        position:absolute;
+        left:100px;
+        bottom:0px;
+    }
+    .btn2{
+        font-size:16px;
+        display:block;
+        width:150px;
+        height:60px;
+        line-height:40px;
+        text-align:center;
+        background:#ffccff;
+        color:#fff;
+        position:absolute;
+        right: 100px;
+        bottom:0px;
+    }
+/*     button */
+    
+.container {
+	position: absolute;
+/* 	top: 0; */
+	left: 0; 
+ 	right: 0; 
+	bottom: 40px;
+	height: 50px;
+	width: 200px;
+	margin: auto;
+}
+*[data-animation="ripple"] {
+  bottom:10px;
+	height: 100% ;
+	width: 100%;
+	display: block;
+	outline: none;
+	padding: 20px;
+	color: #fff;
+	text-transform: uppercase;
+	background: linear-gradient(135deg, #e570e7 0%,#79f1fc 100%);
+	box-sizing: border-box;
+	text-align: center;
+	line-height: 14px;
+	font-family: roboto, helvetica;
+	font-weight: 200;
+	letter-spacing: 1px;
+	text-decoration: none;
+	box-shadow: 0 5px 3px rgba(0, 0, 0, 0.3);
+	cursor: pointer;
+  /*border-radius: 50px;*/
+	-webkit-tap-highlight-color: transparent;
+	border-radius: 5px;
+}
+
+*[data-animation="ripple"]:focus {
+	outline: none;
+}
+
+*[data-animation="ripple"]::selection {
+	background: transparent;
+	pointer-events: none;
+}
+
+    /*     button */
+    
 		#color-palette {
 			width: 300px;
 			background-color: #f1f1f1;
 			display: flex;
 			flex-wrap: wrap;
 			position: absolute;
-			top: 0;
+			left:30px;
+       Top:30px;
 		}
 
 		.swatch {
@@ -40,8 +119,9 @@
 	<script type="text/javascript" canvas="canvas">
 		window.onload = function() {
 			var canvas = document.getElementById('myCanvas');
-
+      //定义canvas
 			// coloring page
+      
 			var mandala = {
 				item: null,
 				lastClicked: null,
@@ -58,100 +138,149 @@
 			// your rectangle gradient interaction goes in this function
 			// you may also add code outside of the function (e.g., global variables)
 			function myGradientInteraction(){
-// 				var tool = new paper.Tool();
-//         var point;
-//         var x1;
-//         var x2;
-//         var y1;
-//         var y2;
-//         var canvas = document.getElementById("myCanvas");
-//         var index = 1;
-// 				 tool.onMouseMove = function(event){
-//           if (index==1){
-//             var can = document.getElementById("myCanvas");
-//             var context = can.getContext("2d");
-//             context.fillStyle="#FF0000";
-//             context.fillRect(250,250,300,200);
-//             index = index+1;
-//           }
-//         }
-        
-//         tool.onMouseDown = function(event){
-//           point = event.point;
-//           x1 = point.x;
-//           y2 = point.y;
-//         }
-        
-//         tool.onMouseUp = function(event){
-//           point = event.point;
-//           x2 = point.x;
-//           y2 = point.y;
-//           var context = canvas.createLinearGradient(x1,y1,x2,y2);
-//           grd.addColorStop(0,cp.history[cp.history.length -2]);
-//           grd.addColorStop(1,cp.history[cp.history.length-1]);
-//           context.fillStyle = grd;
-//           context.fillRect(250,250,300,200);
-//         }
-        var tool = new paper.Tool();
+           
+				var tool = new paper.Tool();
         var point;
-        var x1;
-        var x2;
-        var y1;
-        var y2;
-        var myCan=document.getElementById("myCanvas");
+        var x1,x2,y1,y2;
+        var hwk=document.getElementById("myCanvas");
         var index=1
-        
-        tool.onMouseMove = function(event){
-          if(index==1){
+        tool.onMouseMove = function(event)
+        {
+          if(index==1)
+            {
             var c=document.getElementById("myCanvas");
-            var ctx=c.getContext("2d");
-            ctx.fillStyle="#FF0000";
-             ctx.fillRect(250,250,300,200);
+          var ctx=c.getContext("2d");
+          ctx.fillStyle="#FF0000";
+          ctx.fillRect(250,250,300,200);
             index++
-          }
+            }
+          else{}
         }
-        
 				tool.onMouseDown = function (event) {
-              point = event.point;
+               
+               point = event.point;
               x1 = point.x;
               y1 = point.y;
 				}
-        
+
 				tool.onMouseUp = function (event) {
-          		point = event.point;
+          			point = event.point;
               x2 = point.x;
               y2 = point.y;
-          var context=myCan.getContext("2d");
-          var grd=context.createLinearGradient(x1,y1,x2,y2);
+          var ctx=hwk.getContext("2d");
+          var grd=ctx.createLinearGradient(x1,y1,x2,y2);
           grd.addColorStop(0,cp.history[cp.history.length - 2]);
           grd.addColorStop(1,cp.history[cp.history.length - 1]);
-          context.fillStyle=grd;
-          context.fillRect(250,250,300,200);
+          ctx.fillStyle=grd;
+          ctx.fillRect(250,250,300,200);
 				}
-        
-        
-        
 			}
 
 			// your custom interaction goes here!
 			// you may replace everything
+      
+      
 			function myCustomInteraction() {
-				var tool = new paper.Tool();
-        
-        
-				tool.onMouseDown = function (event) {
-				    var hit = mandala.item.hitTest(event.point, { tolerance: 10, fill: true });
-				    if (hit) {
-				        hit.item.fillColor = cp.history[cp.history.length - 1];
-				    }
+        var tool = new paper.Tool();
+        var context = colorCanvas.getContext('2d');
+        var radius = 70;
+        var startx = 0;
+        var starty = 0;
+        var isPainting = false;
+				var newPainting = 1;
+//idea on how to change circle radius with mouse movement        
+//https://stackoverflow.com/questions/33811677/html-canvas-draw-a-circle-on-mouse-click-and-drag-it-untill-the-required-radius
+       tool.onMouseDown = function (event) {
+         point = event.point;
+         startx = point.x;
+         starty = point.y;
+         isPainting = true;
 				}
-         
+       
+       tool.onMouseMove = function(event){
+         point = event.point;
+         if (!isPainting) return;
+         var deltax = startx - point.x;
+         var deltay = starty - point.y;
+         radius = Math.sqrt((deltax*deltax)+(deltay*deltay));
+         context.beginPath();
+         context.arc(startx,starty,radius,0,2*Math.PI,false);
+         context.fillStyle = cp.history[cp.history.length-1];
+         context.fill();
+         context.lineWidth=1;
+         context.strokeStyle = 'rgba(255,255,255,0.2)';
+         context.stroke();
+       }
+       
+       tool.onMouseUp = function(event){
+         isPainting = false;
+       }
+			 
+			 tool.onMouseMove = function(event){
+				 if (newPainting == 1){
+				 mandala.item.fillColor='rgb(0,0,0,0)'
+					 newPainting++;
+				 }
+			 }
+          
+        
+        tool.onMouseDrag = function (event) {
+           
+						 point = event.point;
+         if (!isPainting) return;
+         var deltax = startx - point.x;
+         var deltay = starty - point.y;
+         radius = Math.sqrt((deltax*deltax)+(deltay*deltay));
+         context.beginPath();
+         context.arc(startx,starty,radius,0,2*Math.PI,false);
+         context.fillStyle = cp.history[cp.history.length-1];
+         context.fill();
+         context.lineWidth=1;
+         context.strokeStyle = 'rgba(255,255,255,0.2)';
+         context.stroke();
+						
+					
 			}
+        
+        
+        
+// 				tool.onMouseDown = function (event) {
+// 				    var hit = mandala.item.hitTest(event.point, { tolerance: 10, fill: true });
+// 				    if (hit) {
+//               if(modelindex%3 ==0){
+//               var rgbString = cp.history[cp.history.length - 1]; // get this in whatever way.
+//               var parts = rgbString.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+//               var rgbString1 = cp.history[cp.history.length - 2]; // get this in whatever way.
+//               var parts1 = rgbString1.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+//               // parts now should be ["rgb(0, 70, 255", "0", "70", "255"]
+//               delete (parts[0]);
+//               delete (parts1[0]);
+//               for (var i = 1; i <= 3; ++i) {
+//               parts[i] = parseInt(parts[i]);
+//               if (parts[i].length == 1) parts[i] = '0' + parts[i];
+//               }
+//               for (var i = 1; i <= 3; ++i) {
+//               parts1[i] = parseInt(parts1[i]);
+//               if (parts1[i].length == 1) parts1[i] = '0' + parts1[i];
+//               }    
+//               var firstcolor = parseInt((parts[1]+parts1[1])/2);              
+//               var secondcolor =parseInt((parts[2]+parts1[2])/2); 
+//               var thirdcolor = parseInt((parts[3]+parts1[3])/2);
+//               var finalColor = "#"+firstcolor.toString(16)+secondcolor.toString(16)+thirdcolor.toString(16) 
+//               hit.item.fillColor = finalColor}
+//               else if(modelindex%3 ==1)
+//               {
+                  
+//                  hit.item.fillColor = cp.history[cp.history.length - 1];
+//               }
+              
+// 				    }
+// 				}
 
-
+			}
 			// create a color palette with the given colors
+      
 			function createColorPalette(colors){
-
 				// create a swatch for each color
 				for (var i = colors.length - 1; i >= 0; i--) {
 					var $swatch = $("<div>").css("background-color", colors[i])
@@ -179,10 +308,11 @@
 			function init(custom){
 				paper.setup(canvas);
 				getColorsCreatePalette();
-
 				paper.project.importSVG(mandala.filePath, function(item) { 
+          //导入bg img
 					mandala.item = item._children["design-freepik"];
-				    paper.project.insertLayer(0,mandala.item);
+						paper.project.insertLayer(0);
+				    paper.project.insertLayer(1,mandala.item);
 
 				    if (custom) {
 				    	myCustomInteraction();	
@@ -192,11 +322,11 @@
 					
 				}); 
 			}
-
 			// To see your myGradientInteraction version visit: 
 			// http://<your url>:8000/coloring/?type=gradient
 			// To see your myCustomInteraction version visit: 
 			// http://<your url>:8000/coloring/
+      //用来定位地址的部分
 			var url = window.location.href;
 			if (url.indexOf("gradient") > -1) {
 				init(false);
@@ -205,10 +335,54 @@
 			}
 		}
 	</script>
+  <script>
+function button_onclick(){
+  modelindex++;
+  if(modelindex%3==0)
+    {
+      document.getElementById("modelname").value= "Mixed Model";
+    }
+    else if(modelindex% 3 ==1)
+    {
+      document.getElementById("modelname").value= "Normal Model";
+      
+    }
+    else 
+      {
+        document.getElementById("modelname").value= "Drag Model";
+      }
+}
+    function button_Restart_onclick(){
+  location.reload();
+}
+        function button_Save_onclick(){
+//  location.reload();
+             var canvas = document.getElementById('myCanvas');
+          var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    var link = document.getElementById('link');
+      link.setAttribute('download', 'my.png');
+      link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+      link.click();
+        //    var w=window. open('about:blank', 'image from canvas') ;
+         //   w.document.write("<img src=' "+image+"' alt='from canvas'/>") ;
+}
+  var modelindex=1;
+</script>
 </head>
-<body>	
+<body >	
+  <canvas id="colorCanvas" width="750px" height="750px" style = "z-index:1; position:absolute"></canvas>
+	<canvas id="myCanvas" width="750px" height="750px" style = "z-index:2; position:absolute"></canvas>
+<a id="link"></a>
+  	<div id="color-palette" style = 'z-index:3;position:absolute'></div>
+  
+  <div class="container"  onclick="javascript:button_Restart_onclick();"style ="bottom :0px;" >
+	<a data-animation="ripple" typle ="float: ">Paint <span style="font-weight: bold;">Again</span></a>
+  </div>
+    <div >
+      <input id="modelname" style='z-index:3;position:absolute' type="button"  value="Normal Model"   onclick="javascript:button_onclick();" class="btn1">
+       <input  type="button"  value="Save"   onclick="javascript:button_Save_onclick();" class="btn2">
+      
+    </div>
 
-	<canvas id="myCanvas" width="750px" height="750px"></canvas>
-	<div id="color-palette"></div>
-</body>
+   </body>
 </html>
