@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   	<title>P3 Coloring</title>
 
@@ -15,34 +17,73 @@
         height:60px;
         position:relative;
     }  
-    .btn1{
+    .pourButton{
         font-size:16px;
+			  font-family: 'Raleway', sans-serif;
         display:block;
         width:150px;
-        height:60px;
+        height:40px;
+				border-top-left-radius: 10px;
+				border-top-right-radius: 10px;
         line-height:40px;
         text-align:center;
-        background:#ffccff;
+        background:#458AD0;
         color:#fff;
         position:absolute;
-        left:100px;
-        bottom:0px;
+        right:180px;
+        top:350px;
     }
-    .btn2{
+    .fillButton{
         font-size:16px;
+			  font-family: 'Raleway', sans-serif;
         display:block;
         width:150px;
-        height:60px;
+        height:40px;
+				border-top-left-radius: 10px;
+				border-top-right-radius: 10px;
         line-height:40px;
         text-align:center;
-        background:#ffccff;
+        background:#B0B0B0;
         color:#fff;
         position:absolute;
-        right: 100px;
+        right: 30px;
+        top:350px;
+    }
+		
+		    .restartButton{
+        font-size:16px;
+			  font-family: 'Raleway', sans-serif;
+        display:block;
+        width:150px;
+        height:40px;
+				border-radius: 10px;
+        line-height:40px;
+        text-align:center;
+        background:#B0B0B0;
+        color:#fff;
+        position:absolute;
+        right: 30px;
         bottom:0px;
     }
+		
 /*     button */
     
+		.tutorial {
+	position: absolute;
+/* 	top: 0; */
+ 	right: 30px; 
+	top: 390px;
+	height: 50px;
+	width: 280px;
+	margin: auto;
+	background:#D3E9FF;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+
+}
+		
+		
+		
 .container {
 	position: absolute;
 /* 	top: 0; */
@@ -90,21 +131,24 @@
     
 		#color-palette {
 			width: 300px;
+			border-radius: 10px;
 			background-color: #f1f1f1;
 			display: flex;
 			flex-wrap: wrap;
 			position: absolute;
-			left:30px;
-       Top:30px;
+			right:30px;
+       Top:100px;
 		}
+		
+	
 
 		.swatch {
-			width: 24px;
-			height: 24px;
-			-moz-border-radius: 12px;
-			-webkit-border-radius: 12px;
-			border-radius: 12px;
-			margin: 3px;
+			width: 50px;
+			height: 50px;
+			-moz-border-radius: 20px;
+			-webkit-border-radius: 20px;
+			border-radius: 30px;
+			margin: 5px;
 		}
 
 		#myCanvas {
@@ -190,43 +234,34 @@
 				var newPainting = 1;
 //idea on how to change circle radius with mouse movement        
 //https://stackoverflow.com/questions/33811677/html-canvas-draw-a-circle-on-mouse-click-and-drag-it-untill-the-required-radius
+				
+			//makes the mandala items transparent
+			tool.onMouseMove = function(event){
+				 if (newPainting == 1){
+				 mandala.item.fillColor='rgb(0,0,0,0.01)'
+					 newPainting = 2;
+				 }
+			 }
+			
        tool.onMouseDown = function (event) {
+				 if(pour){
          point = event.point;
          startx = point.x;
          starty = point.y;
          isPainting = true;
-				}
-       
-       tool.onMouseMove = function(event){
-         point = event.point;
-         if (!isPainting) return;
-         var deltax = startx - point.x;
-         var deltay = starty - point.y;
-         radius = Math.sqrt((deltax*deltax)+(deltay*deltay));
-         context.beginPath();
-         context.arc(startx,starty,radius,0,2*Math.PI,false);
-         context.fillStyle = cp.history[cp.history.length-1];
-         context.fill();
-         context.lineWidth=1;
-         context.strokeStyle = 'rgba(255,255,255,0.2)';
-         context.stroke();
-       }
-       
+				 }
+				 else if(fill){
+					 var hit = mandala.item.hitTest(event.point, { tolerance: 10, fill: true });
+					 if(hit){
+						 hit.item.fillColor = cp.history[cp.history.length - 1];
+					 }
+				 }
+				}       
        tool.onMouseUp = function(event){
          isPainting = false;
-       }
-			 
-			 tool.onMouseMove = function(event){
-				 if (newPainting == 1){
-				 mandala.item.fillColor='rgb(0,0,0,0)'
-					 newPainting++;
-				 }
-			 }
-          
-        
+       }		 
         tool.onMouseDrag = function (event) {
-           
-						 point = event.point;
+				point = event.point;
          if (!isPainting) return;
          var deltax = startx - point.x;
          var deltay = starty - point.y;
@@ -238,10 +273,8 @@
          context.lineWidth=1;
          context.strokeStyle = 'rgba(255,255,255,0.2)';
          context.stroke();
-						
-					
 			}
-        
+				
         
         
 // 				tool.onMouseDown = function (event) {
@@ -270,7 +303,6 @@
 //               hit.item.fillColor = finalColor}
 //               else if(modelindex%3 ==1)
 //               {
-                  
 //                  hit.item.fillColor = cp.history[cp.history.length - 1];
 //               }
               
@@ -337,52 +369,95 @@
 	</script>
   <script>
 function button_onclick(){
-  modelindex++;
-  if(modelindex%3==0)
-    {
-      document.getElementById("modelname").value= "Mixed Model";
-    }
-    else if(modelindex% 3 ==1)
-    {
-      document.getElementById("modelname").value= "Normal Model";
+	document.getElementById("fillButton")
+//   modelindex++;
+//   if(modelindex%2==0)
+//     {
+//       document.getElementById("modelname").value= "Color Pour";
+// 			document.getElementById('modelname').fillColor = '#ffffff';
+//     }
+//     else
+//     {
+//       document.getElementById("modelname").value= "Color Fill";
       
-    }
-    else 
-      {
-        document.getElementById("modelname").value= "Drag Model";
-      }
+//     }
 }
+		function button_clickpour(){
+			if(!pour){
+				pour=true;
+				fill = false;
+				document.getElementById('pourButton').style.backgroundColor = "#B0B0B0";
+				document.getElementById('fillButton').style.backgroundColor = "#458AD0";
+				var helpText = document.getElementById('help')
+				if(helpText.textContent==="Click on a color. Click and drag on the canvas to 'pour' out some paint!"){
+					helpText.textContent="Click on a color and then on a bounded area to fill it in!";
+				}
+				else{ helpText.textContent="Click on a color. Click and drag on the canvas to 'pour' out some paint!";}
+			}
+		}
+		
+		function button_clickfill(){
+			if(!fill){
+				fill=true;
+				pour=false;
+				document.getElementById('pourButton').style.backgroundColor = "#458AD0";
+				document.getElementById('fillButton').style.backgroundColor = "#B0B0B0";
+				var helpText = document.getElementById('help')
+								if(helpText.textContent==="Click on a color and then on a bounded area to fill it in!"){
+					helpText.textContent="Click on a color. Click and drag on the canvas to 'pour' out some paint!";
+				}
+				else{ helpText.textContent="Click on a color and then on a bounded area to fill it in!";}
+
+
+			}
+		}
+		
+		
     function button_Restart_onclick(){
   location.reload();
 }
-        function button_Save_onclick(){
-//  location.reload();
-             var canvas = document.getElementById('myCanvas');
-          var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-    var link = document.getElementById('link');
-      link.setAttribute('download', 'my.png');
-      link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-      link.click();
-        //    var w=window. open('about:blank', 'image from canvas') ;
-         //   w.document.write("<img src=' "+image+"' alt='from canvas'/>") ;
-}
+//         function button_Save_onclick(){
+// //  location.reload();
+//              var canvas = document.getElementById('myCanvas');
+//           var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+//     var link = document.getElementById('link');
+//       link.setAttribute('download', 'my.png');
+//       link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+//       link.click();
+//         //    var w=window. open('about:blank', 'image from canvas') ;
+//          //   w.document.write("<img src=' "+image+"' alt='from canvas'/>") ;
+// }
   var modelindex=1;
+	var pour = false;
+	var fill = true;
 </script>
 </head>
 <body >	
   <canvas id="colorCanvas" width="750px" height="750px" style = "z-index:1; position:absolute"></canvas>
 	<canvas id="myCanvas" width="750px" height="750px" style = "z-index:2; position:absolute"></canvas>
 <a id="link"></a>
+	<p style='font-family: Roboto Slab, serif;color:#767879; font-size:40px;text-align:right; padding:0px 30px 5px 0px'>
+		Let's Paint!
+	</p>
   	<div id="color-palette" style = 'z-index:3;position:absolute'></div>
-  
-  <div class="container"  onclick="javascript:button_Restart_onclick();"style ="bottom :0px;" >
-	<a data-animation="ripple" typle ="float: ">Paint <span style="font-weight: bold;">Again</span></a>
-  </div>
+	</div>
+	</div>
+
     <div >
-      <input id="modelname" style='z-index:3;position:absolute' type="button"  value="Normal Model"   onclick="javascript:button_onclick();" class="btn1">
-       <input  type="button"  value="Save"   onclick="javascript:button_Save_onclick();" class="btn2">
-      
+      <input id="pourButton" style='z-index:3;position:absolute' type="button" value="Color Fill"   onclick="javascript:button_clickfill();" class="pourButton">
+			      <input id="fillButton" style='z-index:3;' type="button" value="Color Pour"   onclick="javascript:button_clickpour();" class="fillButton">
     </div>
+
+<div id = 'help' class='tutorial' style='font-family: Raleway, sans serif; color:#767879; font-size: 16px; padding: 10px'>
+
+	 Click on a color and then on a bounded area to fill it in!
+
+</div>
+
+
+<div>
+	<input id="restartButton" style='z-index:3;position:absolute' type="button" value="Start Over"   onclick="javascript:button_Restart_onclick();" class="restartButton">
+</div>
 
    </body>
 </html>
